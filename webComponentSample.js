@@ -29,7 +29,7 @@ class ResultComponent extends HTMLElement {
     this.header = document.getElementsByClassName('sticky-header__container')[0]
 
     setInterval(() => {
-      div.innerHTML = `Time: ${new Date().toLocaleString('en-US')} ${this._prop ? ', ' + this._prop : ''}`; // Use the property
+      this.div.innerHTML = `Time: ${new Date().toLocaleString('en-US')} ${this._prop ? ', ' + this._prop : ''}`; // Use the property
     }, 1000)
 
   }
