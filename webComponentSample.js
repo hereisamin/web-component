@@ -10,7 +10,7 @@ class ResultComponent extends HTMLElement {
     this._prop = this.getAttribute('prop') // Initialize the property from the attribute
 
     this.container = document.createElement('div')
-      container.innerHTML = `
+      this.container.innerHTML = `
       <div style="padding: 24px; border: 9px solid blue;">
       <p>DATA IS: ${this._prop ? this._prop : 0}</p>
           <div id="resultDiv"></div>
