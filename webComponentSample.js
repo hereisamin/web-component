@@ -32,6 +32,7 @@ class ResultComponent extends HTMLElement {
       this.div.innerHTML = `Time: ${new Date().toLocaleString('en-US')} ${this._prop ? ', ' + this._prop : ''}`; // Use the property
     }, 1000)
 
+    this.renderElements()
   }
 
   renderElements() {
