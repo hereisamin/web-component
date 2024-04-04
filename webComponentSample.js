@@ -1,18 +1,14 @@
 class ResultComponent extends HTMLElement {
-    static get observedAttributes() {
-        return ['data'];
-      }
-
     constructor () {
       super()
-      this.productNumber = 0
-
       this.attachShadow({ mode: 'open' })
+
+      this._prop = null
   
       const container = document.createElement('div')
       container.innerHTML = `
       <div style="padding: 24px; border: 9px solid blue;">
-      <p>DATA IS: ${this.getAttribute('data')}</p>
+      <p>DATA IS: ${this._prop}</p>
           <div id="resultDiv"></div>
           <button style="
           padding: 20px;
@@ -37,24 +33,15 @@ class ResultComponent extends HTMLElement {
       const foo = document.getElementsByClassName('sticky-header__container')[0].appendChild(div)
       console.log({foo})
     }
-
-    attributeChangedCallback(name, oldValue, newValue) {
-      console.log({name, oldValue, newValue})
-      if (name === 'data') {
-        this.productNumber = newValue
-        this.shadowRoot.querySelector('p').textContent = `Product number is: ${newValue}`;
-        this.shadowRoot.getElementById('catchButton').textContent = `Get the product No.${this.productNumber}`;
-      }
-    }
   
     async getResult () {
       try {
-        const response = await fetch(`https://dummyjson.com/products/${this.getAttribute('data')}`)
+        const response = await fetch(`https://dummyjson.com/products/${this._prop}`)
         if (!response.ok) {
           throw new Error('Failed to fetch data')
         }
         const data = await response.json()
-  console.log(data)
+
         this.shadowRoot.getElementById('resultDiv').innerHTML = `
         <h1>Name: ${data.title}</h1>
         <h3>Price: ${data.price}</h1>
@@ -65,6 +52,14 @@ class ResultComponent extends HTMLElement {
       } catch (error) {
         console.error(error)
       }
+    }
+
+    set prop(value) {
+      this._prop = value
+    }
+  
+    get prop() {
+      return this._prop
     }
   }
   
