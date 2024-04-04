@@ -55,6 +55,7 @@ class ResultComponent extends HTMLElement {
     }
 
     set prop(value) {
+        console.log({ newProp: value})
       this._prop = value
     }
   
