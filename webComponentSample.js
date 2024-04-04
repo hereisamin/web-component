@@ -28,8 +28,6 @@ class ResultComponent extends HTMLElement {
     this.div = document.createElement("div");
     this.header = document.getElementsByClassName('sticky-header__container')[0]
 
-    this.shadowRoot.getElementById('catchButton').addEventListener('click', this.getResult.bind(this))
-
     setInterval(() => {
       this.div.innerHTML = `Time: ${new Date().toLocaleString('en-US')} ${this._prop ? ', ' + this._prop : ''}`; // Use the property
     }, 1000)
@@ -48,6 +46,8 @@ class ResultComponent extends HTMLElement {
 
     this.shadowRoot.appendChild(this.container)
     this.header.appendChild(this.div)
+
+    this.shadowRoot.getElementById('catchButton').addEventListener('click', this.getResult.bind(this))
   }
 
   set prop(value) { // Define a setter for the property
