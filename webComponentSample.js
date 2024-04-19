@@ -64,4 +64,4 @@ class ResultComponent extends HTMLElement {
     }
   }
   
-  customElements.define('result-component', ResultComponent)
+  customElements.define('product-loader', ResultComponent)
