@@ -10,29 +10,35 @@ class ProductLoader extends HTMLElement {
         // Initialize prop
         this._prop = '';
 
-        // Create the input and button
+        // Create the input and button with placeholders
         this.shadowRoot.innerHTML = `
             <style>
-                /* Styles for the component */
+                /* Container styles */
                 :host {
                     display: block;
                     max-width: 500px;
                     margin: 0 auto;
-                    padding: 20px;
-                    background-color: #f9f9f9;
-                    border-radius: 10px;
-                    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+                    font-family: Arial, sans-serif;
                 }
 
+                /* Input container */
+                .input-container {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    margin-bottom: 20px;
+                }
+
+                /* Input field */
                 input[type="number"] {
                     padding: 10px;
-                    margin-right: 10px;
                     border: 1px solid #ccc;
                     border-radius: 5px;
                     font-size: 16px;
-                    width: 150px;
+                    width: 70%;
                 }
 
+                /* Button */
                 button {
                     padding: 10px 20px;
                     border: none;
@@ -41,17 +47,21 @@ class ProductLoader extends HTMLElement {
                     color: white;
                     font-size: 16px;
                     cursor: pointer;
+                    width: 25%;
                 }
 
                 button:hover {
                     background-color: #45a049;
                 }
 
-                #resultDiv {
-                    margin-top: 20px;
+                /* Result container */
+                .result-container {
+                    background-color: #f9f9f9;
+                    border-radius: 5px;
+                    padding: 20px;
                 }
 
-                /* Styles for the product information */
+                /* Product info */
                 .product-info {
                     margin-top: 20px;
                     padding: 20px;
@@ -70,9 +80,13 @@ class ProductLoader extends HTMLElement {
                     height: auto;
                 }
             </style>
-            <input type="number" id="inputNumber" placeholder="Enter a number">
-            <button id="submitButton">Get Product</button>
-            <div id="resultDiv"></div>
+            <div class="input-container">
+                <input type="number" id="inputNumber" placeholder="Enter product number">
+                <button id="submitButton">Search</button>
+            </div>
+            <div class="result-container">
+                <p>Enter a product number above to search</p>
+            </div>
         `;
 
         // Bind the event listener for the button
@@ -94,7 +108,7 @@ class ProductLoader extends HTMLElement {
             const data = await response.json();
 
             // Display the product data
-            this.shadowRoot.querySelector('#resultDiv').innerHTML = `
+            this.shadowRoot.querySelector('.result-container').innerHTML = `
                 <div class="product-info">
                     <h1>Name: ${data.title}</h1>
                     <h3>Price: ${data.price}</h3>
@@ -106,6 +120,8 @@ class ProductLoader extends HTMLElement {
 
         } catch (error) {
             console.error(error);
+            // Display error message if fetching fails
+            this.shadowRoot.querySelector('.result-container').innerHTML = `<p>Failed to fetch product data</p>`;
         }
     }
 }
