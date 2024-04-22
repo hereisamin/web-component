@@ -9,7 +9,13 @@ class ProductLoader extends HTMLElement {
 
     this._prop = this.getAttribute('prop') // Initialize the property from the attribute
 
-    this.container = document.createElement('div')
+    this.container = document.createElement('div')  
+    
+    this.shadowRoot.appendChild(this.container)
+    this.renderElements()
+  }
+
+  renderElements() {
     this.container.innerHTML = `
       <div style="padding: 24px; border: 9px solid blue;">
       <p>DATA IS: ${this._prop ? this._prop : 0}</p>
@@ -21,19 +27,7 @@ class ProductLoader extends HTMLElement {
           font-weight: bold;
           color: darkblue;
       " id="catchButton">READY</button>
-          </div>
-        `
-      
-
-    this.renderElements()
-  }
-
-  renderElements() {
-    if (this.shadowRoot.contains(this.container)) {
-      this.shadowRoot.removeChild(this.container)
-    }
-
-    this.shadowRoot.appendChild(this.container)
+          </div>`
 
     this.shadowRoot.getElementById('catchButton').addEventListener('click', this.getResult.bind(this))
   }
