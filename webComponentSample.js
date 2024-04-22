@@ -1,3 +1,5 @@
+// product-loader.js
+
 class ProductLoader extends HTMLElement {
     constructor() {
         super();
@@ -5,43 +7,49 @@ class ProductLoader extends HTMLElement {
         // Create a shadow root
         this.attachShadow({ mode: 'open' });
 
-        // Create a loading indicator
+        // Initialize prop
+        this._prop = '';
+
+        // Create the input and button
         this.shadowRoot.innerHTML = `
             <style>
-                .loader {
-                    border: 8px solid #f3f3f3; /* Light grey */
-                    border-top: 8px solid #3498db; /* Blue */
-                    border-radius: 50%;
-                    width: 50px;
-                    height: 50px;
-                    animation: spin 2s linear infinite;
-                }
-
-                @keyframes spin {
-                    0% { transform: rotate(0deg); }
-                    100% { transform: rotate(360deg); }
-                }
+                /* Styles for the input and button */
             </style>
-            <div class="loader"></div>
+            <input type="number" id="inputNumber" placeholder="Enter a number">
+            <button id="submitButton">Get Product</button>
+            <div id="resultDiv"></div>
         `;
+
+        // Bind the event listener for the button
+        this.shadowRoot.querySelector('#submitButton').addEventListener('click', () => {
+            this.getResult();
+        });
     }
 
-    connectedCallback() {
-        // Simulate loading product data
-        setTimeout(() => {
-            this.loadProductData();
-        }, 2000); // Simulating a 2-second delay
-    }
+    async getResult() {
+        try {
+            // Get the input value
+            const inputNumber = this.shadowRoot.querySelector('#inputNumber').value;
+            
+            // Fetch product data
+            const response = await fetch(`https://dummyjson.com/products/${inputNumber}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch data');
+            }
+            const data = await response.json();
 
-    loadProductData() {
-        // Replace the loader with the actual product content
-        this.shadowRoot.innerHTML = `
-            <div>
-                <h2>Product Name</h2>
-                <p>Description of the product goes here...</p>
-                <p>Price: $XX.XX</p>
-            </div>
-        `;
+            // Display the product data
+            this.shadowRoot.querySelector('#resultDiv').innerHTML = `
+                <h1>Name: ${data.title}</h1>
+                <h3>Price: ${data.price}</h3>
+                <h3>Description:</h3>
+                <p>${data.description}</p>
+                <img src="${data.images[0]}" alt="Product Image" width="500" height="500">
+            `;
+
+        } catch (error) {
+            console.error(error);
+        }
     }
 }
 
