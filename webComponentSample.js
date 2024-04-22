@@ -24,6 +24,11 @@ class ProductLoader extends HTMLElement {
                     margin-top: 24px;
                     margin-bottom: 24px;
                     border-radius: 6px;
+                    padding: 20px;
+                    margin-top: 20px;
+                    margin-bottom: 20px;
+                    background-color: lightblue;
+                    border-radius: 10px;
                 }
 
                 /* Input container */
