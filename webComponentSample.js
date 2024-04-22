@@ -1,66 +1,49 @@
 class ProductLoader extends HTMLElement {
-  static get observedAttributes() {
-    return ['prop']; // Add the prop attribute to the list of observed attributes
-  }
+    constructor() {
+        super();
 
-  constructor () {
-    super()
-    this.attachShadow({ mode: 'open' })
+        // Create a shadow root
+        this.attachShadow({ mode: 'open' });
 
-    this._prop = this.getAttribute('prop') // Initialize the property from the attribute
+        // Create a loading indicator
+        this.shadowRoot.innerHTML = `
+            <style>
+                .loader {
+                    border: 8px solid #f3f3f3; /* Light grey */
+                    border-top: 8px solid #3498db; /* Blue */
+                    border-radius: 50%;
+                    width: 50px;
+                    height: 50px;
+                    animation: spin 2s linear infinite;
+                }
 
-    this.container = document.createElement('div')  
-    
-    this.shadowRoot.appendChild(this.container)
-    this.renderElements()
-  }
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+            </style>
+            <div class="loader"></div>
+        `;
+    }
 
-  renderElements() {
-    this.container.innerHTML = `
-      <div style="padding: 24px; border: 9px solid blue;">
-      <p>DATA IS: ${this._prop ? this._prop : 0}</p>
-          <div id="resultDiv"></div>
-          <button style="
-          padding: 20px;
-          background-color: lightblue;
-          font-size: larger;
-          font-weight: bold;
-          color: darkblue;
-      " id="catchButton">READY</button>
-          </div>`
+    connectedCallback() {
+        // Simulate loading product data
+        setTimeout(() => {
+            this.loadProductData();
+        }, 2000); // Simulating a 2-second delay
+    }
 
-    this.shadowRoot.getElementById('catchButton').addEventListener('click', this.getResult.bind(this))
-  }
-
-  set prop(value) { // Define a setter for the property
-    console.log('Setting prop', value)
-    this._prop = value
-    this.renderElements()
-  }
-
-  get prop() { // Define a getter for the property
-    return this._prop
-  }
-
-    async getResult () {
-      try {
-        const response = await fetch(`https://dummyjson.com/products/${this._prop}`)
-        if (!response.ok) {
-          throw new Error('Failed to fetch data')
-        }
-        const data = await response.json()
-
-        this.shadowRoot.getElementById('resultDiv').innerHTML = `
-        <h1>Name: ${data.title}</h1>
-        <h3>Price: ${data.price}</h1>
-        <h3>Description:</h1><p>${data.description}</p>
-        <img src="${data.images[0]}" alt="Girl in a jacket" width="500" height="500">
-        `
-
-      } catch (error) {
-        console.error(error)
-      }
+    loadProductData() {
+        // Replace the loader with the actual product content
+        this.shadowRoot.innerHTML = `
+            <div>
+                <h2>Product Name</h2>
+                <p>Description of the product goes here...</p>
+                <p>Price: $XX.XX</p>
+            </div>
+        `;
     }
 }
 
-customElements.define('product-loader', ProductLoader)
+// Define the custom element
+customElements.define('product-loader', ProductLoader);
