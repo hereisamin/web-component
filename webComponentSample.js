@@ -39,6 +39,7 @@ class ProductLoader extends HTMLElement {
   }
 
   set prop(value) { // Define a setter for the property
+    console.log('Setting prop', value)
     this._prop = value
     this.renderElements()
   }
