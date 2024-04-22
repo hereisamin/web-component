@@ -1,4 +1,4 @@
-class ResultComponent extends HTMLElement {
+class ProductLoader extends HTMLElement {
   static get observedAttributes() {
     return ['prop']; // Add the prop attribute to the list of observed attributes
   }
@@ -80,4 +80,4 @@ class ResultComponent extends HTMLElement {
     }
 }
 
-customElements.define('product-loader', ResultComponent)
+customElements.define('product-loader', ProductLoader)
