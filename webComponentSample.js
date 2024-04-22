@@ -19,6 +19,11 @@ class ProductLoader extends HTMLElement {
                     max-width: 500px;
                     margin: 0 auto;
                     font-family: Arial, sans-serif;
+                    background-color: lightblue;
+                    padding: 20px;
+                    margin-top: 24px;
+                    margin-bottom: 24px;
+                    border-radius: 6px;
                 }
 
                 /* Input container */
